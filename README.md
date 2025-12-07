@@ -9,25 +9,25 @@ This project implements a Q-Learning algorithm (and now Deep RL algorithms as we
 Before running anything, create a clean Python environment:
 
 1. Create a virtual environment:
-    python3 -m venv venv
+   ''' python3 -m venv venv '''
 
-2. Activate it:
+3. Activate it:
     Linux/Mac:
-        source venv/bin/activate
+        ''' source venv/bin/activate '''
     Windows:
         venv\Scripts\activate
 
-3. Install the required packages:
-    pip install -r requirements.txt
+4. Install the required packages:
+    ''' pip install -r requirements.txt '''
 
 ----------------------------------------
 ## Running the Files
 
 To run the classical Q-Learning version with OpenCV visualization:
-    python dot_chasing.py
+    ''' python3 dot_chasing.py '''
 
 To run the Deep Reinforcement Learning (PPO) version:
-    python dot_chasing_RL.py
+    ''' python3 dot_chasing_RL.py '''
 
 That’s it — both files are simple and easy to tweak. Hyperparameters are directly editable inside the scripts.
 
