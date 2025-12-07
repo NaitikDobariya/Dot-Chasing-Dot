@@ -21,6 +21,7 @@ pip install -r requirements.txt
 # To run table based Q-learning
 python3 dot_chasing.py
 
+# To run various types of Deep RL algorithms
 python3 dot_chasing_RL.py
 ```
 
