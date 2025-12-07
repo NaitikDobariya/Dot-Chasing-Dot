@@ -1,162 +1,88 @@
 # Dot-Chasing-Dot
+An agent learns to chase the prey while avoiding the predator. Previously, the agent was learning via a Q-learning table; now, we have something extra: the existing environment was made compatible with OpenAI Gym, and the agent can be trained with Stable Baselines 3.
 
-This project is exactly what it sounds like: a dot chasing another dot while running away from a third dot… except now the chasing dot is actually learning what to do.
+This project implements a Q-Learning algorithm (and now Deep RL algorithms as well) to train an agent in a grid-world environment. The agent (Player) learns to pursue prey (food) while avoiding a predator. The environment is dynamic, with the food and predator moving randomly, creating a challenging reinforcement learning problem. The environment promotes strategic behavior through rewards and penalties, with the agent learning to balance short-term and long-term goals effectively.
 
-It started as a simple Q-learning project where the agent learns to chase food and avoid a predator in a small grid. Later, I made the entire environment Gym-compatible, and now you can throw Stable Baselines 3 at it and watch PPO figure out the “life and death of dots” in barely 10 episodes.
+----------------------------------------
+## Installation & Setup (How to Run)
 
-If you want to see an agent panic, survive, strategize, and then suddenly become a genius, this project is perfect.
-
----
-
-## Installation & Setup
-
-Before running anything, just set things up cleanly:
+Before running anything, create a clean Python environment:
 
 1. Create a virtual environment:
-    ```
     python3 -m venv venv
-    ```
 
 2. Activate it:
+    Linux/Mac:
+        source venv/bin/activate
+    Windows:
+        venv\Scripts\activate
 
-    **Linux/Mac**
-    ```
-    source venv/bin/activate
-    ```
-
-    **Windows**
-    ```
-    venv\Scripts\activate
-    ```
-
-3. Install dependencies:
-    ```
+3. Install the required packages:
     pip install -r requirements.txt
-    ```
 
-That’s it. Very straightforward.
+----------------------------------------
+## Running the Files
 
----
+To run the classical Q-Learning version with OpenCV visualization:
+    python dot_chasing.py
 
-## Running the Project
+To run the Deep Reinforcement Learning (PPO) version:
+    python dot_chasing_RL.py
 
-### ▶ Q-Learning Version (classic)
-If you want to see the old-school Q-learning table grind its way to intelligence, run:
+That’s it — both files are simple and easy to tweak. Hyperparameters are directly editable inside the scripts.
 
-````
-
-python dot_chasing.py
-
-```
-
-This opens a nice OpenCV visualization where:
-- Purple dot = Agent  
-- Green dot = Food  
-- Red dot = Predator  
-- The agent starts by running around like an idiot but slowly becomes a pro.
-
-### ▶ Deep RL Version (Stable Baselines 3)
-If you want to see the “modern” agent that learns in just ~10 episodes:
-
-```
-
-python dot_chasing_RL.py
-
-```
-
-PPO performed the best in my experiments. The agent very quickly figures out the optimal reward (~42 points). It’s honestly satisfying to watch.
-
----
-
+----------------------------------------
 ## Environment Description
+The world is a two-dimensional grid where each cell can be occupied by the agent, food, or predator. The dynamics for the presented example are as follows:
 
-The world is a simple 2D grid with three moving entities:
+- **Agent (Player):** Learns to chase food and avoid the predator.
+- **Food:** Moves randomly and rewards the agent when captured.
+- **Predator:** Moves randomly and penalizes the agent if captured.
+- **Rewards and Penalties:**
+  - Eating food: +250 reward
+  - Being caught by the predator: -500 penalty
+  - Each move: -5 penalty to encourage efficiency
 
-- **Agent (Player):** has to chase the food while avoiding the predator.
-- **Food:** randomly moves around. Touch it → reward.
-- **Predator:** also moves randomly. Touch it → *pain.*
+The environment promotes quick decision-making and effective pathfinding using Q-learning.
 
-### Rewards  
-- Food eaten: **+250**  
-- Predator catches you: **-500**  
-- Every single move: **-5** (because wandering aimlessly shouldn’t pay off)
-
-This forces the agent to learn efficient movement instead of dancing around doing nothing.
-
----
-
+----------------------------------------
 ## Q-Learning Implementation
-
 ### State Representation
-Each state looks like this:
-```
+The state is represented by the relative positions of the agent to the food and predator, encoded as tuples:
+- (player - food, player - predator)
 
-(player - food, player - predator)
+### Action Space
+The agent can take one of four possible actions:
+1. Move up
+2. Move down
+3. Move left
+4. Move right
 
-```
-This captures the relative positions instead of absolute grid positions, which keeps the table compact.
+### Q-Table
+The Q-table is initialized as a dictionary mapping states to action values, allowing the agent to estimate the expected utility of each action in a given state.
 
-### Actions
-The agent can take:
-1. Up  
-2. Down  
-3. Left  
-4. Right  
+### Update Rule
+The Q-values are updated using the following algorithm:
+![image](https://github.com/user-attachments/assets/895ed2bc-c4eb-4933-a3dc-aad5ada64c54)
 
-Yep, just simple 4-way movement.
+### Exploration vs. Exploitation
+An epsilon-greedy strategy is used to balance exploration and exploitation, with epsilon decaying over time.
 
-### Q-Table Format
-A dictionary:
-```
-
-{ state : [Q_up, Q_down, Q_left, Q_right] }
-
-```
-
-### Update Rule  
-The classical formula — here’s the reference image you’ve already seen a hundred times:
-
-https://github.com/user-attachments/assets/895ed2bc-c4eb-4933-a3dc-aad5ada64c54
-
-### Exploration
-Epsilon-greedy with decay.  
-Starts random → slowly becomes confident → eventually masters the grid.
-
----
-
+----------------------------------------
 ## Features
+- **Dynamic Visualizations:** The grid-world environment is rendered using OpenCV for real-time visualization of the agent's behavior during training.
+- **Hyperparameter Control:** Adjustable parameters for episodes, learning rate, discount factor, and exploration decay. There is full control over the hyperparameters, and tuning them gives better performance.
+- **Performance Tracking:** Rewards per episode are logged to track learning progress.
 
-- Smooth OpenCV visualization  
-- Full control over every hyperparameter  
-- Simple, readable code  
-- Gym-compatible environment  
-- Stable Baselines 3 support (PPO recommended)  
-- Logs episode rewards for learning curves  
-
----
-
+----------------------------------------
 ## Results
+The agent learns to efficiently navigate the grid-world, optimizing its strategy to collect food while effectively avoiding the predator, and learns to do that faster and faster as it learns. Run the file dot_chasing.py to see it for yourself. Making tweaks is straightforward once you open the file and see it. The following video demonstrates the entire process. The purple dot is the agent, the green dot is the food for the agent, and the red dot is the predator:
 
-Here’s an actual clip of the agent learning.  
-**Purple = agent, Green = food, Red = predator.**
+![Dot_chasing](https://github.com/user-attachments/assets/a4707590-5c18-4b53-94ac-1dae2b803f9d)
 
-https://github.com/user-attachments/assets/a4707590-5c18-4b53-94ac-1dae2b803f9d
+For the Deep Reinforcement learning part, the best results were given by PPO during my attempts. The agent begins to get an average reward of ~42 points after just 10 episodes, which is the optimal reward value given the environment and rewards parameters. Learning within 10 episodes is a great marker of performance. To run this for yourself, run the dot_chasing_RL.py file. The code is very intuitive to read, and making tweaks is straightforward.
+<img width="999" height="599" alt="results" src="https://github.com/user-attachments/assets/d6588bee-3607-4d2d-bf25-6f81ca2d1ab0" />
 
-And here’s the graph for the PPO version (the deep RL agent that learns insanely fast):
-
-https://github.com/user-attachments/assets/d6588bee-3607-4d2d-bf25-6f81ca2d1ab0
-
-The agent starts hitting ~42 points of reward after just 10 episodes, which is basically optimal given the reward structure.
-
----
-
+----------------------------------------
 ## Future Work
-
-- Expand this to a multi-agent ecosystem — maybe agents competing, cooperating, or even forming predator–prey hierarchies.  
-- More chaos, more emergent behavior.
-
-
-
-
-
-
+- Extending to multi-agent environments.
