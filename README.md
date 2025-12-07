@@ -4,32 +4,27 @@ An agent learns to chase the prey while avoiding the predator. Previously, the a
 This project implements a Q-Learning algorithm (and now Deep RL algorithms as well) to train an agent in a grid-world environment. The agent (Player) learns to pursue prey (food) while avoiding a predator. The environment is dynamic, with the food and predator moving randomly, creating a challenging reinforcement learning problem. The environment promotes strategic behavior through rewards and penalties, with the agent learning to balance short-term and long-term goals effectively.
 
 ----------------------------------------
-## Installation & Setup (How to Run)
+## Quick Install
 
-Before running anything, create a clean Python environment:
+```bash
+# Clone repository
+git clone https://github.com/NaitikDobariya/Dot-Chasing-Dot.git
+cd Dot-Chasing-Dot
 
-1. Create a virtual environment:
-   ''' python3 -m venv venv '''
-
-3. Activate it:
-    Linux/Mac:
-        ''' source venv/bin/activate '''
-    Windows:
-        venv\Scripts\activate
-
-4. Install the required packages:
-    ''' pip install -r requirements.txt '''
-
+# Install with dependencies
+pip install -r requirements.txt
+```
 ----------------------------------------
 ## Running the Files
 
-To run the classical Q-Learning version with OpenCV visualization:
-    ''' python3 dot_chasing.py '''
+```python
+# To run table based Q-learning
+python3 dot_chasing.py
 
-To run the Deep Reinforcement Learning (PPO) version:
-    ''' python3 dot_chasing_RL.py '''
+python3 dot_chasing_RL.py
+```
 
-That’s it — both files are simple and easy to tweak. Hyperparameters are directly editable inside the scripts.
+That’s it, both files are simple and easy to tweak. Hyperparameters are directly editable inside the scripts.
 
 ----------------------------------------
 ## Environment Description
