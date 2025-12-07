@@ -11,7 +11,7 @@ This project implements a Q-Learning algorithm (and now Deep RL algorithms as we
 git clone https://github.com/NaitikDobariya/Dot-Chasing-Dot.git
 cd Dot-Chasing-Dot
 
-# Install with dependencies
+# Install with dependencies, if Python<3.12, manually install pickle
 pip install -r requirements.txt
 ```
 ----------------------------------------
